@@ -21,13 +21,39 @@ def get_pokemon_info():
     if data.status_code == 404:
         messagebox.showerror("Error", f"Unable to fetch Information for {pokemon_name} from the pokeAPI.")
 
-    return
+        return
 
-data = dataclasses.json()
-stats_data = data['stats']
+    data = data.json()
+    stats_data = data['stats']
 
-print("length",len(data['stats']))
-print(data['name'])
+    print("length",len(data['stats']))
+    print(data['name'])
+
+    heigh_val.config(text=f"{data['height']} dm")
+    weight_val.config(text=f"{data['weight']} hg")
+    type_val.congig(text =", ".join([t['type']['name'].title() for t in data['types']]))
+
+    stats_data = data ['stats']
+    for stat in stats_data:
+
+        if stat['stat']['name'] == 'hp':
+            hp_bar.config(value=stat['base_stat'])
+
+        elif stat['stat']['name'] == 'attack':
+            attack_bar.config(value=stat['base_stat'])
+
+        elif stat['stat']['name'] == 'defense':
+            defense_bar.config(value=stat['base_stat'])
+
+        elif stat['stat']['name'] == 'special-attack':
+            special_attack_bar.config(value=stat['base_stat'])
+
+        elif stat['stat']['name'] == 'special-defense':
+            special_defense_bar.config(value=stat['base_stat'])
+        
+        elif stat['stat']['name'] == 'speed':
+            speed_bar.config(value=stat['base_stat'])
+
 
 
 input_frame = tk.Frame(window)
@@ -79,10 +105,6 @@ type_val.grid(row=2,column=1,padx=10, pady=10)
 
 # info_frame.pack()
 
-heigh_val.config(text=f"{data['height']} dm")
-weight_val.config(text=f"{data['weight']} hg")
-type_val.congig(text =", ".join([t['type']['name'].title() for t in data['types']]))
-
 
 # print("stats_datastats_data",stats_data)
 
@@ -128,27 +150,6 @@ special_defense_label.grid(row=5,column=0)
 special_defense_bar = ttk.Progressbar(stats_frame,orient="horizontal",length=100,value=0,mode="determinate")
 special_defense_bar.grid(row=5,column=1,padx=10, pady=10)
 
-
-stats_data = data ['stats']
-for stat in stats_data:
-
-    if stat['stat']['name'] == 'hp':
-        hp_bar.config(value=stat['base_stat'])
-
-    elif stat['stat']['name'] == 'attack':
-        attack_bar.config(value=stat['base_stat'])
-
-    elif stat['stat']['name'] == 'defense':
-        defense_bar.config(value=stat['base_stat'])
-
-    elif stat['stat']['name'] == 'special-attack':
-        special_attack_bar.config(value=stat['base_stat'])
-
-    elif stat['stat']['name'] == 'special-defense':
-        special_defense_bar.config(value=stat['base_stat'])
-        
-    elif stat['stat']['name'] == 'speed':
-        speed_bar.config(value=stat['base_stat'])
 
 
 window.mainloop()
