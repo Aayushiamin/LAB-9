@@ -1,8 +1,8 @@
-import dataclasses
+from email import *
 import tkinter as tk 
 from tkinter import ttk
 from tkinter import messagebox 
-from utils import bind_close, get_tk_attr, get_dir, get_detail
+from utils import *
 import requests
 from tkinter import messagebox
 
@@ -10,19 +10,20 @@ window=tk.Tk()
 
 #window.geometry("600*600")
 
-bind_close(window)
+
 window.title("Pokemon Information")
 
 def get_pokemon_info():
     pokemon_name = pok_inputuser.get()
     URL = f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}/"
 
-    data = requests.get(URL)
+    data= requests.get(URL)
     if data.status_code == 404:
         messagebox.showerror("Error", f"Unable to fetch Information for {pokemon_name} from the pokeAPI.")
 
         return
 
+    
     data = data.json()
     stats_data = data['stats']
 
@@ -31,8 +32,13 @@ def get_pokemon_info():
 
     heigh_val.config(text=f"{data['height']} dm")
     weight_val.config(text=f"{data['weight']} hg")
-    type_val.congig(text =", ".join([t['type']['name'].title() for t in data['types']]))
+    type_val.config(text = f"{data['types'][0]['type']['name']}")
 
+
+
+
+   
+    
     stats_data = data ['stats']
     for stat in stats_data:
 
